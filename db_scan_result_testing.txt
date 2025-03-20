@@ -1,0 +1,17 @@
+db.scan_results.insertOne({
+  server_id: "server123",
+  hostname: "webserver01",
+  ip_address: "192.168.1.10",
+  timestamp: new Date(),
+  scan_data: {
+    tests: [
+      { test_id: "T1", status: "OK", description: "Firewall active" },
+      { test_id: "T2", status: "WARNING", description: "Updates pending" }
+    ]
+  },
+  metrics: {
+    cpu_usage: 45,
+    memory_usage: 60,
+    disk_usage: { use_percent: 75, used: "150GB", size: "200GB", avail: "50GB" }
+  }
+});
