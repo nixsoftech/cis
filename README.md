@@ -8,3 +8,9 @@ Installing collected packages: Jinja2
     Can't uninstall 'Jinja2'. No files were found to uninstall.
 ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
 flask 3.1.0 requires Jinja2>=3.1.2, but you have jinja2 2.10 which is incompatible.
+
+ pip3 uninstall jinja2
+Found existing installation: Jinja2 3.0.3
+Not uninstalling jinja2 at /usr/lib/python3/dist-packages, outside environment /usr
+Can't uninstall 'Jinja2'. No files were found to uninstall.
+
