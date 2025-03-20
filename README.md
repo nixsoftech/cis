@@ -14,3 +14,5 @@ Found existing installation: Jinja2 3.0.3
 Not uninstalling jinja2 at /usr/lib/python3/dist-packages, outside environment /usr
 Can't uninstall 'Jinja2'. No files were found to uninstall.
 
+ salt-key -L
+Error: cannot import name 'soft_unicode' from 'markupsafe' (/root/.local/lib/python3.10/site-packages/markupsafe/__init__.py)
