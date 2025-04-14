@@ -1,11 +1,16 @@
-# Ensure package cache is updated
-update_package_cache:
-  pkg.uptodate:
-    - refresh: True
+include:
+  - repo_config
 
-# Upgrade all packages non-interactively
-upgrade_packages:
-  cmd.run:
-    - name: DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade
+update_pkg_db:
+  pkg.update
+
+non_interactive_upgrade:
+  pkg.upgrade:
+    - name: '*'
+    - env:
+      - DEBIAN_FRONTEND: noninteractive
+      - UCF_FORCE_CONFFOLD: 1  # Add this for config file handling
+    - extra_args: "-o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
+    - cache_valid_time: 3600
     - require:
-      - pkg: update_package_cache
+      - pkg: update_pkg_db
