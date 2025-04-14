@@ -5,78 +5,193 @@ salt '10.13.0.81' state.apply repo_config
     Function: file.managed
         Name: /etc/apt/sources.list
       Result: True
-     Comment: File /etc/apt/sources.list updated
-     Started: 18:15:21.660869
-    Duration: 5.884 ms
+     Comment: File /etc/apt/sources.list is in the correct state
+     Started: 18:20:47.432019
+    Duration: 4.685 ms
      Changes:
-              ----------
-              diff:
-                  ---
-                  +++
-                  @@ -1,52 +1,4 @@
-                  -#
-                  -
-                  -# deb cdrom:[Ubuntu-Server 18.04.6 LTS _Bionic Beaver_ - Release amd64 (20210915.2)]/ bionic main restricted
-                  -
-                  -# deb cdrom:[Ubuntu-Server 18.04.6 LTS _Bionic Beaver_ - Release amd64 (20210915.2)]/ bionic main restricted
-                  -
-                  -# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
-                  -# newer versions of the distribution.
-                  -# deb-src http://in.archive.ubuntu.com/ubuntu/ bionic main restricted
-                  -
-                  -## Major bug fix updates produced after the final release of the
-                  -## distribution.
-                  -# deb-src http://in.archive.ubuntu.com/ubuntu/ bionic-updates main restricted
-                  -
-                  -## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-                  -## team. Also, please note that software in universe WILL NOT receive any
-                  -## review or updates from the Ubuntu security team.
-                  -# deb-src http://in.archive.ubuntu.com/ubuntu/ bionic universe
-                  -# deb-src http://in.archive.ubuntu.com/ubuntu/ bionic-updates universe
-                  -
-                  -## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-                  -## team, and may not be under a free licence. Please satisfy yourself as to
-                  -## your rights to use the software. Also, please note that software in
-                  -## multiverse WILL NOT receive any review or updates from the Ubuntu
-                  -## security team.
-                  -# deb-src http://in.archive.ubuntu.com/ubuntu/ bionic multiverse
-                  -# deb-src http://in.archive.ubuntu.com/ubuntu/ bionic-updates multiverse
-                  -
-                  -## N.B. software from this repository may not have been tested as
-                  -## extensively as that contained in the main release, although it includes
-                  -## newer versions of some applications which may provide useful features.
-                  -## Also, please note that software in backports WILL NOT receive any review
-                  -## or updates from the Ubuntu security team.
-                  -# deb-src http://in.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
-                  -
-                  -## Uncomment the following two lines to add software from Canonical's
-                  -## 'partner' repository.
-                  -## This software is not part of Ubuntu, but is offered by Canonical and the
-                  -## respective vendors as a service to Ubuntu users.
-                  -# deb http://archive.canonical.com/ubuntu bionic partner
-                  -# deb-src http://archive.canonical.com/ubuntu bionic partner
-                  -
-                  -# deb-src http://security.ubuntu.com/ubuntu bionic-security main restricted
-                  -# deb-src http://security.ubuntu.com/ubuntu bionic-security universe
-                  -# deb-src http://security.ubuntu.com/ubuntu bionic-security multiverse
-                  -deb [arch=armhf,amd64,arm64] https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019 bionic main
-                  -# deb-src [arch=armhf,amd64,arm64] https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019 bionic main
-                  -deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main
-                  -# deb-src https://dl.winehq.org/wine-builds/ubuntu/ bionic main
-                  -deb http://archive.ubuntu.com/ubuntu bionic main universe
-                  -###
-                  -deb [trusted=yes] file:/home/linuxadmin/salt-repo ./
-                  +deb http://10.13.0.88:8080/ubuntu/ bionic main restricted universe multiverse
-                  +deb http://10.13.0.88:8080/ubuntu/ bionic-updates main restricted universe multiverse
-                  +deb http://10.13.0.88:8080/ubuntu/ bionic-security main restricted universe multiverse
-                  +deb http://10.13.0.88:8080/ubuntu/ bionic-backports main restricted universe multiverse
 ----------
           ID: force_apt_cache_update
-    Function: pkg.update
+    Function: cmd.run
+        Name: apt-get update
       Result: False
-     Comment: State 'pkg.update' was not found in SLS 'repo_config'
-              Reason: 'pkg.update' is not available.
+     Comment: Command "apt-get update" run
+     Started: 18:20:47.437136
+    Duration: 2697.688 ms
      Changes:
+              ----------
+              pid:
+                  18411
+              retcode:
+                  100
+              stderr:
+                  E: The repository 'http://10.13.0.88:8080/ubuntu bionic-backports Release' does not have a Release file.
+              stdout:
+                  Get:1 http://10.13.0.88:8080/ubuntu bionic InRelease [242 kB]
+                  Get:2 http://10.13.0.88:8080/ubuntu bionic-updates InRelease [102 kB]
+                  Get:3 http://10.13.0.88:8080/ubuntu bionic-security InRelease [102 kB]
+                  Ign:4 http://10.13.0.88:8080/ubuntu bionic-backports InRelease
+                  Err:5 http://10.13.0.88:8080/ubuntu bionic-backports Release
+                    404  Not Found [IP: 10.13.0.88 8080]
+                  Ign:6 http://10.13.0.88:8080/ubuntu bionic/main amd64 Packages
+                  Ign:7 http://10.13.0.88:8080/ubuntu bionic/main i386 Packages
+                  Ign:8 http://10.13.0.88:8080/ubuntu bionic/main Translation-en
+                  Ign:9 http://10.13.0.88:8080/ubuntu bionic/main amd64 DEP-11 Metadata
+                  Ign:10 http://10.13.0.88:8080/ubuntu bionic/main DEP-11 48x48 Icons
+                  Ign:11 http://10.13.0.88:8080/ubuntu bionic/main DEP-11 64x64 Icons
+                  Ign:12 http://10.13.0.88:8080/ubuntu bionic/restricted amd64 Packages
+                  Ign:13 http://10.13.0.88:8080/ubuntu bionic/restricted i386 Packages
+                  Ign:14 http://10.13.0.88:8080/ubuntu bionic/restricted Translation-en
+                  Ign:15 http://10.13.0.88:8080/ubuntu bionic/universe amd64 Packages
+                  Ign:16 http://10.13.0.88:8080/ubuntu bionic/universe i386 Packages
+                  Ign:17 http://10.13.0.88:8080/ubuntu bionic/universe Translation-en
+                  Ign:18 http://10.13.0.88:8080/ubuntu bionic/universe amd64 DEP-11 Metadata
+                  Ign:19 http://10.13.0.88:8080/ubuntu bionic/universe DEP-11 48x48 Icons
+                  Ign:20 http://10.13.0.88:8080/ubuntu bionic/universe DEP-11 64x64 Icons
+                  Ign:21 http://10.13.0.88:8080/ubuntu bionic/multiverse i386 Packages
+                  Ign:22 http://10.13.0.88:8080/ubuntu bionic/multiverse amd64 Packages
+                  Ign:23 http://10.13.0.88:8080/ubuntu bionic/multiverse Translation-en
+                  Ign:24 http://10.13.0.88:8080/ubuntu bionic/multiverse amd64 DEP-11 Metadata
+                  Ign:25 http://10.13.0.88:8080/ubuntu bionic/multiverse DEP-11 48x48 Icons
+                  Ign:26 http://10.13.0.88:8080/ubuntu bionic/multiverse DEP-11 64x64 Icons
+                  Get:6 http://10.13.0.88:8080/ubuntu bionic/main amd64 Packages [1019 kB]
+                  Ign:7 http://10.13.0.88:8080/ubuntu bionic/main i386 Packages
+                  Get:8 http://10.13.0.88:8080/ubuntu bionic/main Translation-en [516 kB]
+                  Get:9 http://10.13.0.88:8080/ubuntu bionic/main amd64 DEP-11 Metadata [477 kB]
+                  Get:10 http://10.13.0.88:8080/ubuntu bionic/main DEP-11 48x48 Icons [118 kB]
+                  Get:11 http://10.13.0.88:8080/ubuntu bionic/main DEP-11 64x64 Icons [245 kB]
+                  Get:12 http://10.13.0.88:8080/ubuntu bionic/restricted amd64 Packages [9184 B]
+                  Ign:13 http://10.13.0.88:8080/ubuntu bionic/restricted i386 Packages
+                  Get:14 http://10.13.0.88:8080/ubuntu bionic/restricted Translation-en [3584 B]
+                  Get:15 http://10.13.0.88:8080/ubuntu bionic/universe amd64 Packages [8570 kB]
+                  Ign:16 http://10.13.0.88:8080/ubuntu bionic/universe i386 Packages
+                  Get:17 http://10.13.0.88:8080/ubuntu bionic/universe Translation-en [4941 kB]
+                  Get:18 http://10.13.0.88:8080/ubuntu bionic/universe amd64 DEP-11 Metadata [3287 kB]
+                  Err:18 http://10.13.0.88:8080/ubuntu bionic/universe amd64 DEP-11 Metadata
+                    File has unexpected size (3284992 != 3287492). Mirror sync in progress? [IP: 10.13.0.88 8080]
+                    Hashes of expected file:
+                     - Filesize:3287492 [weak]
+                     - SHA256:5de4d7b62df09e6b66f9febc713f62bd08bad53d7421c0acb69ff7c154e2aba6
+                     - SHA1:d3e772c88dcb8b08e0617a2b64cb256e94d8c74b [weak]
+                     - MD5Sum:995970ff95d0aaf9b4db023cf8423222 [weak]
+                    Release file created at: Thu, 26 Apr 2018 23:37:48 +0000
+                  Get:19 http://10.13.0.88:8080/ubuntu bionic/universe DEP-11 48x48 Icons [2151 kB]
+                  Err:19 http://10.13.0.88:8080/ubuntu bionic/universe DEP-11 48x48 Icons
+
+                  Get:20 http://10.13.0.88:8080/ubuntu bionic/universe DEP-11 64x64 Icons [8420 kB]
+                  Ign:21 http://10.13.0.88:8080/ubuntu bionic/multiverse i386 Packages
+                  Get:22 http://10.13.0.88:8080/ubuntu bionic/multiverse amd64 Packages [151 kB]
+                  Get:23 http://10.13.0.88:8080/ubuntu bionic/multiverse Translation-en [108 kB]
+                  Get:24 http://10.13.0.88:8080/ubuntu bionic/multiverse amd64 DEP-11 Metadata [49.7 kB]
+                  Get:25 http://10.13.0.88:8080/ubuntu bionic/multiverse DEP-11 48x48 Icons [8931 B]
+                  Get:26 http://10.13.0.88:8080/ubuntu bionic/multiverse DEP-11 64x64 Icons [225 kB]
+                  Ign:7 http://10.13.0.88:8080/ubuntu bionic/main i386 Packages
+                  Ign:13 http://10.13.0.88:8080/ubuntu bionic/restricted i386 Packages
+                  Ign:27 http://10.13.0.88:8080/ubuntu bionic-updates/main amd64 Packages
+                  Ign:28 http://10.13.0.88:8080/ubuntu bionic-updates/main i386 Packages
+                  Ign:29 http://10.13.0.88:8080/ubuntu bionic-updates/main Translation-en
+                  Ign:30 http://10.13.0.88:8080/ubuntu bionic-updates/main amd64 DEP-11 Metadata
+                  Ign:31 http://10.13.0.88:8080/ubuntu bionic-updates/main DEP-11 48x48 Icons
+                  Ign:32 http://10.13.0.88:8080/ubuntu bionic-updates/main DEP-11 64x64 Icons
+                  Ign:33 http://10.13.0.88:8080/ubuntu bionic-updates/restricted i386 Packages
+                  Ign:34 http://10.13.0.88:8080/ubuntu bionic-updates/restricted amd64 Packages
+                  Ign:35 http://10.13.0.88:8080/ubuntu bionic-updates/restricted Translation-en
+                  Ign:36 http://10.13.0.88:8080/ubuntu bionic-updates/restricted amd64 DEP-11 Metadata
+                  Ign:37 http://10.13.0.88:8080/ubuntu bionic-updates/restricted DEP-11 48x48 Icons
+                  Ign:38 http://10.13.0.88:8080/ubuntu bionic-updates/restricted DEP-11 64x64 Icons
+                  Ign:39 http://10.13.0.88:8080/ubuntu bionic-updates/universe i386 Packages
+                  Ign:40 http://10.13.0.88:8080/ubuntu bionic-updates/universe amd64 Packages
+                  Ign:41 http://10.13.0.88:8080/ubuntu bionic-updates/universe Translation-en
+                  Ign:42 http://10.13.0.88:8080/ubuntu bionic-updates/universe amd64 DEP-11 Metadata
+                  Ign:43 http://10.13.0.88:8080/ubuntu bionic-updates/universe DEP-11 48x48 Icons
+                  Ign:44 http://10.13.0.88:8080/ubuntu bionic-updates/universe DEP-11 64x64 Icons
+                  Ign:45 http://10.13.0.88:8080/ubuntu bionic-updates/multiverse amd64 Packages
+                  Ign:46 http://10.13.0.88:8080/ubuntu bionic-updates/multiverse i386 Packages
+                  Ign:47 http://10.13.0.88:8080/ubuntu bionic-updates/multiverse Translation-en
+                  Ign:48 http://10.13.0.88:8080/ubuntu bionic-updates/multiverse amd64 DEP-11 Metadata
+                  Ign:49 http://10.13.0.88:8080/ubuntu bionic-updates/multiverse DEP-11 48x48 Icons
+                  Ign:50 http://10.13.0.88:8080/ubuntu bionic-updates/multiverse DEP-11 64x64 Icons
+                  Ign:51 http://10.13.0.88:8080/ubuntu bionic-security/main i386 Packages
+                  Ign:52 http://10.13.0.88:8080/ubuntu bionic-security/main amd64 Packages
+                  Ign:53 http://10.13.0.88:8080/ubuntu bionic-security/main Translation-en
+                  Ign:54 http://10.13.0.88:8080/ubuntu bionic-security/main amd64 DEP-11 Metadata
+                  Ign:55 http://10.13.0.88:8080/ubuntu bionic-security/main DEP-11 48x48 Icons
+                  Ign:56 http://10.13.0.88:8080/ubuntu bionic-security/main DEP-11 64x64 Icons
+                  Ign:57 http://10.13.0.88:8080/ubuntu bionic-security/restricted amd64 Packages
+                  Ign:58 http://10.13.0.88:8080/ubuntu bionic-security/restricted i386 Packages
+                  Ign:59 http://10.13.0.88:8080/ubuntu bionic-security/restricted Translation-en
+                  Ign:60 http://10.13.0.88:8080/ubuntu bionic-security/restricted amd64 DEP-11 Metadata
+                  Ign:61 http://10.13.0.88:8080/ubuntu bionic-security/restricted DEP-11 48x48 Icons
+                  Ign:62 http://10.13.0.88:8080/ubuntu bionic-security/restricted DEP-11 64x64 Icons
+                  Ign:63 http://10.13.0.88:8080/ubuntu bionic-security/universe amd64 Packages
+                  Ign:64 http://10.13.0.88:8080/ubuntu bionic-security/universe i386 Packages
+                  Ign:65 http://10.13.0.88:8080/ubuntu bionic-security/universe Translation-en
+                  Ign:66 http://10.13.0.88:8080/ubuntu bionic-security/universe amd64 DEP-11 Metadata
+                  Ign:67 http://10.13.0.88:8080/ubuntu bionic-security/universe DEP-11 48x48 Icons
+                  Ign:68 http://10.13.0.88:8080/ubuntu bionic-security/universe DEP-11 64x64 Icons
+                  Ign:69 http://10.13.0.88:8080/ubuntu bionic-security/multiverse i386 Packages
+                  Ign:70 http://10.13.0.88:8080/ubuntu bionic-security/multiverse amd64 Packages
+                  Ign:71 http://10.13.0.88:8080/ubuntu bionic-security/multiverse Translation-en
+                  Ign:72 http://10.13.0.88:8080/ubuntu bionic-security/multiverse amd64 DEP-11 Metadata
+                  Ign:73 http://10.13.0.88:8080/ubuntu bionic-security/multiverse DEP-11 48x48 Icons
+                  Ign:74 http://10.13.0.88:8080/ubuntu bionic-security/multiverse DEP-11 64x64 Icons
+                  Get:27 http://10.13.0.88:8080/ubuntu bionic-updates/main amd64 Packages [3044 kB]
+                  Ign:28 http://10.13.0.88:8080/ubuntu bionic-updates/main i386 Packages
+                  Get:29 http://10.13.0.88:8080/ubuntu bionic-updates/main Translation-en [554 kB]
+                  Get:30 http://10.13.0.88:8080/ubuntu bionic-updates/main amd64 DEP-11 Metadata [297 kB]
+                  Get:31 http://10.13.0.88:8080/ubuntu bionic-updates/main DEP-11 48x48 Icons [82.8 kB]
+                  Get:32 http://10.13.0.88:8080/ubuntu bionic-updates/main DEP-11 64x64 Icons [154 kB]
+                  Ign:33 http://10.13.0.88:8080/ubuntu bionic-updates/restricted i386 Packages
+                  Get:34 http://10.13.0.88:8080/ubuntu bionic-updates/restricted amd64 Packages [1347 kB]
+                  Err:34 http://10.13.0.88:8080/ubuntu bionic-updates/restricted amd64 Packages
+                    File has unexpected size (1339392 != 1347204). Mirror sync in progress? [IP: 10.13.0.88 8080]
+                    Hashes of expected file:
+                     - Filesize:1347204 [weak]
+                     - SHA256:541f7543bf67ee062a7e786c075e20712a2989e95054366fb19ed53eea081675
+                     - SHA1:f0084381b923a0a05e827eb08549b4256c6231f8 [weak]
+                     - MD5Sum:febcc0e53acc1dd3ad348173fa246e38 [weak]
+                    Release file created at: Tue, 08 Apr 2025 03:33:29 +0000
+                  Get:35 http://10.13.0.88:8080/ubuntu bionic-updates/restricted Translation-en [187 kB]
+                  Get:36 http://10.13.0.88:8080/ubuntu bionic-updates/restricted amd64 DEP-11 Metadata [212 B]
+                  Get:37 http://10.13.0.88:8080/ubuntu bionic-updates/restricted DEP-11 48x48 Icons [29 B]
+                  Get:38 http://10.13.0.88:8080/ubuntu bionic-updates/restricted DEP-11 64x64 Icons [29 B]
+                  Ign:39 http://10.13.0.88:8080/ubuntu bionic-updates/universe i386 Packages
+                  Get:40 http://10.13.0.88:8080/ubuntu bionic-updates/universe amd64 Packages [1914 kB]
+                  Get:41 http://10.13.0.88:8080/ubuntu bionic-updates/universe Translation-en [421 kB]
+                  Get:42 http://10.13.0.88:8080/ubuntu bionic-updates/universe amd64 DEP-11 Metadata [303 kB]
+                  Get:43 http://10.13.0.88:8080/ubuntu bionic-updates/universe DEP-11 48x48 Icons [237 kB]
+                  Get:44 http://10.13.0.88:8080/ubuntu bionic-updates/universe DEP-11 64x64 Icons [521 kB]
+                  Ign:51 http://10.13.0.88:8080/ubuntu bionic-security/main i386 Packages
+                  Get:52 http://10.13.0.88:8080/ubuntu bionic-security/main amd64 Packages [2717 kB]
+                  Get:53 http://10.13.0.88:8080/ubuntu bionic-security/main Translation-en [468 kB]
+                  Get:54 http://10.13.0.88:8080/ubuntu bionic-security/main amd64 DEP-11 Metadata [76.9 kB]
+                  Get:55 http://10.13.0.88:8080/ubuntu bionic-security/main DEP-11 48x48 Icons [31.1 kB]
+                  Get:56 http://10.13.0.88:8080/ubuntu bionic-security/main DEP-11 64x64 Icons [67.9 kB]
+                  Get:57 http://10.13.0.88:8080/ubuntu bionic-security/restricted amd64 Packages [1317 kB]
+                  Err:57 http://10.13.0.88:8080/ubuntu bionic-security/restricted amd64 Packages
+                    File has unexpected size (1314816 != 1316956). Mirror sync in progress? [IP: 10.13.0.88 8080]
+                    Hashes of expected file:
+                     - Filesize:1316956 [weak]
+                     - SHA256:7aad5fdd425052951a44ea9d936923b1e1c10981af2da58db38e4d5fdca6f53d
+                     - SHA1:891d6433904069ecb828bd3a7e18f7f82bc697f9 [weak]
+                     - MD5Sum:2dd3f91cc0570d0e329d720eecfc8583 [weak]
+                    Release file created at: Tue, 08 Apr 2025 03:31:27 +0000
+                  Ign:58 http://10.13.0.88:8080/ubuntu bionic-security/restricted i386 Packages
+                  Get:59 http://10.13.0.88:8080/ubuntu bionic-security/restricted Translation-en [182 kB]
+                  Get:60 http://10.13.0.88:8080/ubuntu bionic-security/restricted amd64 DEP-11 Metadata [208 B]
+                  Get:61 http://10.13.0.88:8080/ubuntu bionic-security/restricted DEP-11 48x48 Icons [29 B]
+                  Get:62 http://10.13.0.88:8080/ubuntu bionic-security/restricted DEP-11 64x64 Icons [29 B]
+                  Get:63 http://10.13.0.88:8080/ubuntu bionic-security/universe amd64 Packages [1303 kB]
+                  Err:63 http://10.13.0.88:8080/ubuntu bionic-security/universe amd64 Packages
+
+                  Ign:64 http://10.13.0.88:8080/ubuntu bionic-security/universe i386 Packages
+                  Get:65 http://10.13.0.88:8080/ubuntu bionic-security/universe Translation-en [308 kB]
+                  Get:66 http://10.13.0.88:8080/ubuntu bionic-security/universe amd64 DEP-11 Metadata [61.9 kB]
+                  Get:67 http://10.13.0.88:8080/ubuntu bionic-security/universe DEP-11 48x48 Icons [35.7 kB]
+                  Get:75 https://packages.microsoft.com/ubuntu/20.04/prod focal InRelease [3632 B]
+                  Get:76 https://packages.microsoft.com/ubuntu/20.04/prod focal/main arm64 Packages [76.1 kB]
+                  Get:77 https://packages.microsoft.com/ubuntu/20.04/prod focal/main amd64 Packages [347 kB]
+                  Get:78 https://packages.microsoft.com/ubuntu/20.04/prod focal/main armhf Packages [25.7 kB]
+                  Reading package lists...
 
 Summary for 10.13.0.81
 ------------
@@ -84,5 +199,4 @@ Succeeded: 1 (changed=1)
 Failed:    1
 ------------
 Total states run:     2
-Total run time:   5.884 ms
-ERROR: Minions returned with non-zero exit code
+Total run time:   2.702 s
