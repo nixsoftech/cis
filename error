@@ -1,5 +1,2 @@
- ls -l /var/www/html/ubuntu/dists/bionic{,-updates,-security,-backports}/Release
-ls: cannot access '/var/www/html/ubuntu/dists/bionic-backports/Release': No such file or directory
--rw-r--r-- 1 root root 241180 Apr 26  2018 /var/www/html/ubuntu/dists/bionic/Release
--rw-r--r-- 1 root root 100891 Apr  8 03:33 /var/www/html/ubuntu/dists/bionic-security/Release
--rw-r--r-- 1 root root 100889 Apr  8 03:35 /var/www/html/ubuntu/dists/bionic-updates/Release
+: not founds.sh: 2:
+dep_packages.sh: 6: Syntax error: "(" unexpected
