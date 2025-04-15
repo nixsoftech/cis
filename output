@@ -1,0 +1,35 @@
+apt-mirror
+Downloading 342 index files using 20 threads...
+Begin time: Tue Apr 15 07:20:59 2025
+[20]... [19]... [18]... [17]... [16]... [15]... [14]... [13]... [12]... [11]... [10]... [9]... [8]... [7]... [6]... [5]... [4]... [3]... [2]... [1]... [0]...
+End time: Tue Apr 15 07:21:05 2025
+
+Processing translation indexes: [TTTTTTTTT]
+
+Downloading 1671 translation files using 20 threads...
+Begin time: Tue Apr 15 07:21:05 2025
+[20]... [19]... [18]... [17]... [16]... [15]... [14]... [13]... [12]... [11]... [10]... [9]... [8]... [7]... [6]... [5]... [4]... [3]... [2]... [1]... [0]...
+End time: Tue Apr 15 07:21:25 2025
+
+Processing DEP-11 indexes: [DDDDDDDDD]
+
+Downloading 264 dep11 files using 20 threads...
+Begin time: Tue Apr 15 07:21:25 2025
+[20]... [19]... [18]... [17]... [16]... [15]... [14]... [13]... [12]... [11]... [10]... [9]... [8]... [7]... [6]... [5]... [4]... [3]... [2]... [1]... [0]...
+End time: Tue Apr 15 07:21:27 2025
+
+Processing cnf indexes: [CCCCCCCCC]
+
+Downloading 48 cnf files using 20 threads...
+Begin time: Tue Apr 15 07:21:27 2025
+[20]... [19]... [18]... [17]... [16]... [15]... [14]... [13]... [12]... [11]... [10]... [9]... [8]... [7]... [6]... [5]... [4]... [3]... [2]... [1]... [0]...
+End time: Tue Apr 15 07:21:28 2025
+
+Processing indexes: [PPP
+gzip: stdin: unexpected end of file
+PPPPPP]
+
+434.6 GiB will be downloaded into archive.
+Downloading 44453 archive files using 20 threads...
+Begin time: Tue Apr 15 07:21:39 2025
+[20]...
