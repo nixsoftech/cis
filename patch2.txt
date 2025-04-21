@@ -1,0 +1,28 @@
+include:
+  - repo_config
+
+configure_apt_sources:
+  file.managed:
+    - name: /etc/apt/sources.list
+    - source: salt://files/sources.list  # Adjust to your source file
+    - user: root
+    - group: root
+    - mode: 644
+
+update_pkg_db:
+  pkg.uptodate:
+    - refresh: True
+    - cache_valid_time: 3600
+    - require:
+      - file: configure_apt_sources
+
+non_interactive_upgrade:
+  pkg.upgrade:
+    - name: '*'
+    - env:
+      - DEBIAN_FRONTEND: noninteractive
+      - UCF_FORCE_CONFFOLD: 1
+    - extra_args: "-o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
+    - cache_valid_time: 3600
+    - require:
+      - pkg: update_pkg_db
