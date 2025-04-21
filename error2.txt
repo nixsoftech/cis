@@ -1,0 +1,43 @@
+salt '10.13.0.81' state.apply patch_management1 test=True
+10.13.0.81:
+----------
+          ID: configure_apt_sources
+    Function: file.managed
+        Name: /etc/apt/sources.list
+      Result: True
+     Comment: The file /etc/apt/sources.list is in the correct state
+     Started: 13:47:56.695866
+    Duration: 4.346 ms
+     Changes:
+----------
+          ID: force_apt_cache_update
+    Function: cmd.run
+        Name: apt-get update
+      Result: None
+     Comment: Command "apt-get update" would have been executed
+     Started: 13:47:56.700688
+    Duration: 0.25 ms
+     Changes:
+----------
+          ID: update_pkg_db
+    Function: pkg.update
+      Result: False
+     Comment: State 'pkg.update' was not found in SLS 'patch_management1'
+              Reason: 'pkg.update' is not available.
+     Changes:
+----------
+          ID: non_interactive_upgrade
+    Function: pkg.upgrade
+        Name: *
+      Result: False
+     Comment: One or more requisite failed: patch_management1.update_pkg_db
+     Changes:
+
+Summary for 10.13.0.81
+------------
+Succeeded: 2 (unchanged=1)
+Failed:    2
+------------
+Total states run:     4
+Total run time:   4.596 ms
+ERROR: Minions returned with non-zero exit code
