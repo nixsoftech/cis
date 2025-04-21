@@ -15,7 +15,7 @@ configure_release_upgrades:
 
 # Step 1: Configure repository for current codename and upgrade to 20.04
 {% set codename = grains['lsb_distrib_codename'] %}
-configure_repo_initial:
+configure_repo_initial_main:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu {{ codename }} main
@@ -24,6 +24,8 @@ configure_repo_initial:
     - refresh: True
     - clean_file: True
     - onlyif: lsb_release -cs | grep -q bionic
+
+configure_repo_initial_security:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Security Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu {{ codename }}-security main
@@ -32,6 +34,8 @@ configure_repo_initial:
     - refresh: True
     - clean_file: False
     - onlyif: lsb_release -cs | grep -q bionic
+
+configure_repo_initial_updates:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Updates Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu {{ codename }}-updates main
@@ -44,7 +48,9 @@ configure_repo_initial:
 update_package_cache_initial:
   pkg.uptodate:
     - require:
-      - pkgrepo: configure_repo_initial
+      - pkgrepo: configure_repo_initial_main
+      - pkgrepo: configure_repo_initial_security
+      - pkgrepo: configure_repo_initial_updates
 
 backup_installed_packages_list:
   cmd.run:
@@ -83,7 +89,7 @@ wait_for_reboot_2004:
     - onlyif: lsb_release -cs | grep -q focal
 
 # Step 2: Configure repository for 20.04 and upgrade to 22.04
-configure_repo_focal:
+configure_repo_focal_main:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal main
@@ -94,6 +100,8 @@ configure_repo_focal:
     - require:
       - cmd: wait_for_reboot_2004
     - onlyif: lsb_release -cs | grep -q focal
+
+configure_repo_focal_security:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Security Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-security main
@@ -104,6 +112,8 @@ configure_repo_focal:
     - require:
       - cmd: wait_for_reboot_2004
     - onlyif: lsb_release -cs | grep -q focal
+
+configure_repo_focal_updates:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Updates Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-updates main
@@ -118,7 +128,9 @@ configure_repo_focal:
 update_package_cache_focal:
   pkg.uptodate:
     - require:
-      - pkgrepo: configure_repo_focal
+      - pkgrepo: configure_repo_focal_main
+      - pkgrepo: configure_repo_focal_security
+      - pkgrepo: configure_repo_focal_updates
 
 upgrade_to_2204:
   cmd.run:
@@ -149,7 +161,7 @@ wait_for_reboot_2204:
     - onlyif: lsb_release -cs | grep -q jammy
 
 # Step 3: Configure repository for 22.04
-configure_repo_jammy:
+configure_repo_jammy_main:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy main
@@ -160,6 +172,8 @@ configure_repo_jammy:
     - require:
       - cmd: wait_for_reboot_2204
     - onlyif: lsb_release -cs | grep -q jammy
+
+configure_repo_jammy_security:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Security Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy-security main
@@ -170,6 +184,8 @@ configure_repo_jammy:
     - require:
       - cmd: wait_for_reboot_2204
     - onlyif: lsb_release -cs | grep -q jammy
+
+configure_repo_jammy_updates:
   pkgrepo.managed:
     - humanname: Custom Ubuntu Updates Repository
     - name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy-updates main
@@ -184,7 +200,9 @@ configure_repo_jammy:
 update_package_cache_jammy:
   pkg.uptodate:
     - require:
-      - pkgrepo: configure_repo_jammy
+      - pkgrepo: configure_repo_jammy_main
+      - pkgrepo: configure_repo_jammy_security
+      - pkgrepo: configure_repo_jammy_updates
 
 # Log upgrade failures
 log_upgrade_failure:
