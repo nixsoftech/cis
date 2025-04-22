@@ -1,0 +1,38 @@
+2025-04-22 17:18:53,533 INFO Using config files '['./DistUpgrade.cfg.bionic', '/etc/update-manager/release-upgrades.d/ubuntu-advantage-upgrades.cfg']'
+2025-04-22 17:18:53,533 INFO uname information: 'Linux WS185 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023 x86_64'
+2025-04-22 17:18:53,592 INFO apt version: '1.6.17'
+2025-04-22 17:18:53,593 INFO python version: '3.6.9 (default, Mar 10 2023, 16:46:00)
+[GCC 8.4.0]'
+2025-04-22 17:18:53,594 INFO release-upgrader version '20.04.40' started
+2025-04-22 17:18:53,602 INFO locale: 'en_US' 'UTF-8'
+2025-04-22 17:18:53,666 DEBUG setting up environ for non-interactive use
+2025-04-22 17:18:53,724 DEBUG Using 'DistUpgradeViewNonInteractive' view
+2025-04-22 17:18:53,755 DEBUG enable dpkg --force-overwrite
+2025-04-22 17:18:53,780 DEBUG creating statefile: '/var/log/dist-upgrade/apt-clone_system_state.tar.gz'
+2025-04-22 17:18:54,368 DEBUG lsb-release: 'bionic'
+2025-04-22 17:18:54,368 DEBUG _pythonSymlinkCheck run
+2025-04-22 17:18:54,369 DEBUG openCache()
+2025-04-22 17:18:54,369 DEBUG quirks: running PreCacheOpen
+2025-04-22 17:18:54,369 DEBUG running Quirks.PreCacheOpen
+2025-04-22 17:18:54,497 DEBUG Comparing 5.4.0-150 with
+2025-04-22 17:18:54,498 DEBUG Comparing 5.4.0-84 with 5.4.0-150
+2025-04-22 17:18:54,530 DEBUG /openCache(), new cache size 19209
+2025-04-22 17:18:54,530 DEBUG need_server_mode(): run in 'desktop' mode, (because of pkg 'ubuntu-desktop')
+2025-04-22 17:18:54,530 DEBUG checkViewDepends()
+2025-04-22 17:18:54,531 DEBUG running doUpdate() (showErrors=False)
+2025-04-22 17:18:59,412 DEBUG openCache()
+2025-04-22 17:18:59,540 DEBUG Comparing 5.4.0-150 with
+2025-04-22 17:18:59,541 DEBUG Comparing 5.4.0-84 with 5.4.0-150
+2025-04-22 17:18:59,575 DEBUG /openCache(), new cache size 19209
+2025-04-22 17:18:59,575 DEBUG doPostInitialUpdate
+2025-04-22 17:18:59,575 DEBUG quirks: running focalPostInitialUpdate
+2025-04-22 17:18:59,575 DEBUG running Quirks.focalPostInitialUpdate
+2025-04-22 17:19:30,119 ERROR No snap store connectivity
+2025-04-22 17:19:30,120 ERROR lxd is installed
+2025-04-22 17:19:30,120 ERROR Connection to the Snap Store failed You have the package lxd installed but your system is unable to reach the Snap Store. lxd is now provided via a snap and the release upgrade will fail if snapd is not functional. Please make sure you're connected to the Internet and update any firewall or proxy settings as needed so that you can reach api.snapcraft.io. If you are an enterprise with a firewall setup you may want to configure a Snap Store proxy. (None)
+2025-04-22 17:19:30,120 DEBUG abort called
+2025-04-22 17:19:30,120 ERROR view.abort called
+2025-04-22 17:19:30,121 DEBUG openCache()
+2025-04-22 17:19:30,262 DEBUG Comparing 5.4.0-150 with
+2025-04-22 17:19:30,263 DEBUG Comparing 5.4.0-84 with 5.4.0-150
+2025-04-22 17:19:30,295 DEBUG /openCache(), new cache size 19209
