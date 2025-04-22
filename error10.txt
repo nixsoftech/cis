@@ -1,0 +1,284 @@
+ salt '10.13.0.81' state.apply os_upgrade2_test
+10.13.0.81:
+----------
+          ID: install_update_manager
+    Function: pkg.installed
+        Name: update-manager-core
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 18:08:42.459021
+    Duration: 153.657 ms
+     Changes:
+----------
+          ID: configure_release_upgrades
+    Function: file.managed
+        Name: /etc/update-manager/release-upgrades
+      Result: True
+     Comment: File /etc/update-manager/release-upgrades is in the correct state
+     Started: 18:08:42.614581
+    Duration: 1.382 ms
+     Changes:
+----------
+          ID: configure_repo_initial_main
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic main
+      Result: True
+     Comment: Configured package repo 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic main'
+     Started: 18:08:42.616294
+    Duration: 1258.767 ms
+     Changes:
+----------
+          ID: configure_repo_initial_security
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-security main
+      Result: True
+     Comment: Configured package repo 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-security main'
+     Started: 18:08:43.875151
+    Duration: 1003.112 ms
+     Changes:
+----------
+          ID: configure_repo_initial_updates
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-updates main
+      Result: True
+     Comment: Configured package repo 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-updates main'
+     Started: 18:08:44.878354
+    Duration: 1143.417 ms
+     Changes:
+----------
+          ID: update_package_cache_initial
+    Function: pkg.uptodate
+      Result: True
+     Comment: System is already up-to-date
+     Started: 18:08:46.022362
+    Duration: 78.229 ms
+     Changes:
+----------
+          ID: backup_installed_packages_list
+    Function: cmd.run
+        Name: dpkg -l > /var/log/installed_packages_pre_upgrade.txt
+      Result: True
+     Comment: /var/log/installed_packages_pre_upgrade.txt exists
+     Started: 18:08:46.100886
+    Duration: 0.357 ms
+     Changes:
+----------
+          ID: remove_lxd
+    Function: pkg.purged
+        Name: lxd
+      Result: True
+     Comment: All targeted packages were purged.
+     Started: 18:08:46.101342
+    Duration: 4421.919 ms
+     Changes:
+              ----------
+              installed:
+                  ----------
+                  lxd:
+                      ----------
+                      new:
+                      old:
+                          3.0.3-0ubuntu1~18.04.2
+              removed:
+                  ----------
+----------
+          ID: remove_lxd
+    Function: pkg.purged
+        Name: lxd-client
+      Result: True
+     Comment: All targeted packages were purged.
+     Started: 18:08:50.525734
+    Duration: 2115.534 ms
+     Changes:
+              ----------
+              installed:
+                  ----------
+                  lxd-client:
+                      ----------
+                      new:
+                      old:
+                          3.0.3-0ubuntu1~18.04.2
+              removed:
+                  ----------
+----------
+          ID: check_reboot_required
+    Function: cmd.run
+        Name: test ! -f /var/run/reboot-required || (echo "Reboot required before upgrade" && exit 1)
+      Result: True
+     Comment: Command "test ! -f /var/run/reboot-required || (echo "Reboot required before upgrade" && exit 1)" run
+     Started: 18:08:52.642571
+    Duration: 7.136 ms
+     Changes:
+              ----------
+              pid:
+                  5084
+              retcode:
+                  0
+              stderr:
+              stdout:
+----------
+          ID: upgrade_to_2004
+    Function: cmd.run
+        Name: DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2004.log
+      Result: True
+     Comment: Command "DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2004.log" run
+     Started: 18:08:52.650714
+    Duration: 40283.279 ms
+     Changes:
+              ----------
+              pid:
+                  5094
+              retcode:
+                  0
+              stderr:
+              stdout:
+----------
+          ID: reboot_after_2004
+    Function: cmd.run
+        Name: reboot
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:09:32.934391
+    Duration: 5.177 ms
+     Changes:
+----------
+          ID: wait_for_reboot_2004
+    Function: cmd.run
+        Name: for i in {1..60}; do
+  if ping -c 1 10.13.0.81 >/dev/null; then
+    sleep 10
+    salt '10.13.0.81' test.ping && break
+  fi
+  sleep 30
+done
+
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:09:32.939912
+    Duration: 31.819 ms
+     Changes:
+----------
+          ID: configure_repo_focal_main
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal main
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:09:32.974274
+    Duration: 1148.298 ms
+     Changes:
+----------
+          ID: configure_repo_focal_security
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-security main
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:09:34.122800
+    Duration: 34.695 ms
+     Changes:
+----------
+          ID: configure_repo_focal_updates
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-updates main
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:09:34.157739
+    Duration: 35.327 ms
+     Changes:
+----------
+          ID: update_package_cache_focal
+    Function: pkg.uptodate
+      Result: True
+     Comment: System is already up-to-date
+     Started: 18:09:34.193737
+    Duration: 82.267 ms
+     Changes:
+----------
+          ID: upgrade_to_2204
+    Function: cmd.run
+        Name: DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2204.log
+      Result: True
+     Comment: Command "DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2204.log" run
+     Started: 18:09:34.276465
+    Duration: 43206.745 ms
+     Changes:
+              ----------
+              pid:
+                  6631
+              retcode:
+                  0
+              stderr:
+              stdout:
+----------
+          ID: reboot_after_2204
+    Function: cmd.run
+        Name: reboot
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:10:17.483592
+    Duration: 5.066 ms
+     Changes:
+----------
+          ID: wait_for_reboot_2204
+    Function: cmd.run
+        Name: for i in {1..60}; do
+  if ping -c 1 10.13.0.81 >/dev/null; then
+    sleep 10
+    salt '10.13.0.81' test.ping && break
+  fi
+  sleep 30
+done
+
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:10:17.489013
+    Duration: 31.312 ms
+     Changes:
+----------
+          ID: configure_repo_jammy_main
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy main
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:10:17.520707
+    Duration: 32.248 ms
+     Changes:
+----------
+          ID: configure_repo_jammy_security
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy-security main
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:10:17.553180
+    Duration: 32.238 ms
+     Changes:
+----------
+          ID: configure_repo_jammy_updates
+    Function: pkgrepo.managed
+        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy-updates main
+      Result: True
+     Comment: onlyif execution failed
+     Started: 18:10:17.585654
+    Duration: 32.471 ms
+     Changes:
+----------
+          ID: update_package_cache_jammy
+    Function: pkg.uptodate
+      Result: True
+     Comment: System is already up-to-date
+     Started: 18:10:17.618789
+    Duration: 77.393 ms
+     Changes:
+----------
+          ID: log_upgrade_failure
+    Function: cmd.run
+        Name: echo "Upgrade failed at $(date)" >> /var/log/upgrade.log
+      Result: True
+     Comment: State was not run because onfail req did not change
+     Changes:
+
+Summary for 10.13.0.81
+-------------
+Succeeded: 25 (changed=5)
+Failed:     0
+-------------
+Total states run:     25
