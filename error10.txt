@@ -1,284 +1,120 @@
- salt '10.13.0.81' state.apply os_upgrade2_test
-10.13.0.81:
-----------
-          ID: install_update_manager
-    Function: pkg.installed
-        Name: update-manager-core
-      Result: True
-     Comment: All specified packages are already installed
-     Started: 18:08:42.459021
-    Duration: 153.657 ms
-     Changes:
-----------
-          ID: configure_release_upgrades
-    Function: file.managed
-        Name: /etc/update-manager/release-upgrades
-      Result: True
-     Comment: File /etc/update-manager/release-upgrades is in the correct state
-     Started: 18:08:42.614581
-    Duration: 1.382 ms
-     Changes:
-----------
-          ID: configure_repo_initial_main
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic main
-      Result: True
-     Comment: Configured package repo 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic main'
-     Started: 18:08:42.616294
-    Duration: 1258.767 ms
-     Changes:
-----------
-          ID: configure_repo_initial_security
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-security main
-      Result: True
-     Comment: Configured package repo 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-security main'
-     Started: 18:08:43.875151
-    Duration: 1003.112 ms
-     Changes:
-----------
-          ID: configure_repo_initial_updates
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-updates main
-      Result: True
-     Comment: Configured package repo 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-updates main'
-     Started: 18:08:44.878354
-    Duration: 1143.417 ms
-     Changes:
-----------
-          ID: update_package_cache_initial
-    Function: pkg.uptodate
-      Result: True
-     Comment: System is already up-to-date
-     Started: 18:08:46.022362
-    Duration: 78.229 ms
-     Changes:
-----------
-          ID: backup_installed_packages_list
-    Function: cmd.run
-        Name: dpkg -l > /var/log/installed_packages_pre_upgrade.txt
-      Result: True
-     Comment: /var/log/installed_packages_pre_upgrade.txt exists
-     Started: 18:08:46.100886
-    Duration: 0.357 ms
-     Changes:
-----------
-          ID: remove_lxd
-    Function: pkg.purged
-        Name: lxd
-      Result: True
-     Comment: All targeted packages were purged.
-     Started: 18:08:46.101342
-    Duration: 4421.919 ms
-     Changes:
-              ----------
-              installed:
-                  ----------
-                  lxd:
-                      ----------
-                      new:
-                      old:
-                          3.0.3-0ubuntu1~18.04.2
-              removed:
-                  ----------
-----------
-          ID: remove_lxd
-    Function: pkg.purged
-        Name: lxd-client
-      Result: True
-     Comment: All targeted packages were purged.
-     Started: 18:08:50.525734
-    Duration: 2115.534 ms
-     Changes:
-              ----------
-              installed:
-                  ----------
-                  lxd-client:
-                      ----------
-                      new:
-                      old:
-                          3.0.3-0ubuntu1~18.04.2
-              removed:
-                  ----------
-----------
-          ID: check_reboot_required
-    Function: cmd.run
-        Name: test ! -f /var/run/reboot-required || (echo "Reboot required before upgrade" && exit 1)
-      Result: True
-     Comment: Command "test ! -f /var/run/reboot-required || (echo "Reboot required before upgrade" && exit 1)" run
-     Started: 18:08:52.642571
-    Duration: 7.136 ms
-     Changes:
-              ----------
-              pid:
-                  5084
-              retcode:
-                  0
-              stderr:
-              stdout:
-----------
-          ID: upgrade_to_2004
-    Function: cmd.run
-        Name: DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2004.log
-      Result: True
-     Comment: Command "DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2004.log" run
-     Started: 18:08:52.650714
-    Duration: 40283.279 ms
-     Changes:
-              ----------
-              pid:
-                  5094
-              retcode:
-                  0
-              stderr:
-              stdout:
-----------
-          ID: reboot_after_2004
-    Function: cmd.run
-        Name: reboot
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:09:32.934391
-    Duration: 5.177 ms
-     Changes:
-----------
-          ID: wait_for_reboot_2004
-    Function: cmd.run
-        Name: for i in {1..60}; do
-  if ping -c 1 10.13.0.81 >/dev/null; then
-    sleep 10
-    salt '10.13.0.81' test.ping && break
-  fi
-  sleep 30
-done
-
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:09:32.939912
-    Duration: 31.819 ms
-     Changes:
-----------
-          ID: configure_repo_focal_main
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal main
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:09:32.974274
-    Duration: 1148.298 ms
-     Changes:
-----------
-          ID: configure_repo_focal_security
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-security main
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:09:34.122800
-    Duration: 34.695 ms
-     Changes:
-----------
-          ID: configure_repo_focal_updates
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-updates main
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:09:34.157739
-    Duration: 35.327 ms
-     Changes:
-----------
-          ID: update_package_cache_focal
-    Function: pkg.uptodate
-      Result: True
-     Comment: System is already up-to-date
-     Started: 18:09:34.193737
-    Duration: 82.267 ms
-     Changes:
-----------
-          ID: upgrade_to_2204
-    Function: cmd.run
-        Name: DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2204.log
-      Result: True
-     Comment: Command "DEBIAN_FRONTEND=noninteractive do-release-upgrade -f DistUpgradeViewNonInteractive 2>&1 | tee /var/log/upgrade_to_2204.log" run
-     Started: 18:09:34.276465
-    Duration: 43206.745 ms
-     Changes:
-              ----------
-              pid:
-                  6631
-              retcode:
-                  0
-              stderr:
-              stdout:
-----------
-          ID: reboot_after_2204
-    Function: cmd.run
-        Name: reboot
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:10:17.483592
-    Duration: 5.066 ms
-     Changes:
-----------
-          ID: wait_for_reboot_2204
-    Function: cmd.run
-        Name: for i in {1..60}; do
-  if ping -c 1 10.13.0.81 >/dev/null; then
-    sleep 10
-    salt '10.13.0.81' test.ping && break
-  fi
-  sleep 30
-done
-
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:10:17.489013
-    Duration: 31.312 ms
-     Changes:
-----------
-          ID: configure_repo_jammy_main
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy main
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:10:17.520707
-    Duration: 32.248 ms
-     Changes:
-----------
-          ID: configure_repo_jammy_security
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy-security main
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:10:17.553180
-    Duration: 32.238 ms
-     Changes:
-----------
-          ID: configure_repo_jammy_updates
-    Function: pkgrepo.managed
-        Name: deb [arch=amd64] http://10.13.0.88:8080/ubuntu jammy-updates main
-      Result: True
-     Comment: onlyif execution failed
-     Started: 18:10:17.585654
-    Duration: 32.471 ms
-     Changes:
-----------
-          ID: update_package_cache_jammy
-    Function: pkg.uptodate
-      Result: True
-     Comment: System is already up-to-date
-     Started: 18:10:17.618789
-    Duration: 77.393 ms
-     Changes:
-----------
-          ID: log_upgrade_failure
-    Function: cmd.run
-        Name: echo "Upgrade failed at $(date)" >> /var/log/upgrade.log
-      Result: True
-     Comment: State was not run because onfail req did not change
-     Changes:
-
-Summary for 10.13.0.81
--------------
-Succeeded: 25 (changed=5)
-Failed:     0
--------------
-Total states run:     25
+2025-04-22 18:09:42,389 INFO Using config files '['./DistUpgrade.cfg.bionic', '/etc/update-manager/release-upgrades.d/ubuntu-advantage-upgrades.cfg']'
+2025-04-22 18:09:42,389 INFO uname information: 'Linux WS185 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023 x86_64'
+2025-04-22 18:09:42,438 INFO apt version: '1.6.17'
+2025-04-22 18:09:42,438 INFO python version: '3.6.9 (default, Mar 10 2023, 16:46:00)
+[GCC 8.4.0]'
+2025-04-22 18:09:42,439 INFO release-upgrader version '20.04.40' started
+2025-04-22 18:09:42,447 INFO locale: 'en_US' 'UTF-8'
+2025-04-22 18:09:42,502 DEBUG setting up environ for non-interactive use
+2025-04-22 18:09:42,552 DEBUG Using 'DistUpgradeViewNonInteractive' view
+2025-04-22 18:09:42,582 DEBUG enable dpkg --force-overwrite
+2025-04-22 18:09:42,600 DEBUG creating statefile: '/var/log/dist-upgrade/apt-clone_system_state.tar.gz'
+2025-04-22 18:09:43,154 DEBUG lsb-release: 'bionic'
+2025-04-22 18:09:43,155 DEBUG _pythonSymlinkCheck run
+2025-04-22 18:09:43,155 DEBUG openCache()
+2025-04-22 18:09:43,155 DEBUG quirks: running PreCacheOpen
+2025-04-22 18:09:43,155 DEBUG running Quirks.PreCacheOpen
+2025-04-22 18:09:43,278 DEBUG Comparing 5.4.0-150 with
+2025-04-22 18:09:43,278 DEBUG Comparing 5.4.0-84 with 5.4.0-150
+2025-04-22 18:09:43,311 DEBUG /openCache(), new cache size 19209
+2025-04-22 18:09:43,311 DEBUG need_server_mode(): run in 'desktop' mode, (because of pkg 'ubuntu-desktop')
+2025-04-22 18:09:43,311 DEBUG checkViewDepends()
+2025-04-22 18:09:43,312 DEBUG running doUpdate() (showErrors=False)
+2025-04-22 18:09:44,320 DEBUG openCache()
+2025-04-22 18:09:44,447 DEBUG Comparing 5.4.0-150 with
+2025-04-22 18:09:44,448 DEBUG Comparing 5.4.0-84 with 5.4.0-150
+2025-04-22 18:09:44,481 DEBUG /openCache(), new cache size 19209
+2025-04-22 18:09:44,481 DEBUG doPostInitialUpdate
+2025-04-22 18:09:44,482 DEBUG quirks: running focalPostInitialUpdate
+2025-04-22 18:09:44,482 DEBUG running Quirks.focalPostInitialUpdate
+2025-04-22 18:10:14,599 ERROR No snap store connectivity
+2025-04-22 18:10:14,826 DEBUG MetaPkgs: ubuntu-desktop
+2025-04-22 18:10:15,107 DEBUG Foreign: libodbc1 msodbcsql17 mssql-tools odbcinst odbcinst1debian2 unixodbc unixodbc-dev
+2025-04-22 18:10:15,107 DEBUG Obsolete: activity-log-manager cabextract debconf-utils falcon-sensor gcc-8-base:i386 geoclue geoclue-ubuntu-geoip gnome-screensaver gstreamer1.0-plugins-base:i386 indicator-applet indicator-application indicator-bluetooth indicator-common indicator-datetime indicator-keyboard indicator-messages indicator-power indicator-session indicator-sound libaccounts-glib0 libasn1-8-heimdal:i386 libasound2:i386 libasyncns0:i386 libatomic1:i386 libavahi-client3:i386 libavahi-common-data:i386 libavahi-common3:i386 libblkid1:i386 libbsd0:i386 libc++1 libc++abi1 libc6:i386 libcairo2:i386 libcap2:i386 libcapi20-3 libcapi20-3:i386 libcdparanoia0:i386 libcom-err2:i386 libdb5.3:i386 libdbus-1-3:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386 libdrm-nouveau2:i386 libdrm-radeon1:i386 libdrm2:i386 libegl-mesa0:i386 libegl1:i386 libelf1:i386 libexif12:i386 libexpat1:i386 libfcitx-config4 libfcitx-gclient1 libfcitx-utils0 libffi6:i386 libflac8:i386 libfontconfig1:i386 libfreetype6:i386 libgbm1:i386 libgcc1:i386 libgcrypt20:i386 libgeoclue0 libgeonames-common libgeonames0 libglapi-mesa:i386 libglib2.0-0:i386 libglvnd0:i386 libgmp10:i386 libgnutls30:i386 libgpg-error0:i386 libgphoto2-port12:i386 libgpm2:i386 libgsm1 libgsm1:i386 libgssapi-krb5-2:i386 libgssapi3-heimdal:i386 libgstreamer-plugins-base1.0-0:i386 libgstreamer1.0-0:i386 libhcrypto4-heimdal:i386 libheimbase1-heimdal:i386 libheimntlm0-heimdal:i386 libhogweed4:i386 libhx509-5-heimdal:i386 libicu60:i386 libidn2-0:i386 libieee1284-3:i386 libjack-jackd2-0:i386 libjbig0:i386 libjpeg-turbo8:i386 libjpeg8:i386 libk5crypto3:i386 libkeyutils1:i386 libkrb5-26-heimdal:i386 libkrb5-3:i386 libkrb5support0:i386 liblcms2-2:i386 libldap-2.4-2:i386 liblightdm-gobject-1-0 libltdl7:i386 liblz4-1:i386 liblzma5:i386 libmount1:i386 libmpg123-0:i386 libnettle6:i386 libnorm1 libogg0:i386 libopenal-data libopenal1 libopenal1:i386 libopts25 libopus0:i386 liborc-0.4-0:i386 libp11-kit0:i386 libpanel-applet3 libpcap0.8:i386 libpciaccess0:i386 libpcre3:i386 libpgm-5.2-0 libpixman-1-0:i386 libpng16-16:i386 libroken18-heimdal:i386 libsamplerate0:i386 libsasl2-2:i386 libsasl2-modules-db:i386 libsdl2-2.0-0 libselinux1:i386 libsensors4:i386 libsndfile1:i386 libsndio6.1 libsndio6.1:i386 libspeexdsp1:i386 libsqlite3-0:i386 libstdc++6:i386 libsystemd0:i386 libtasn1-6:i386 libtheora0:i386 libtiff5:i386 libudev1:i386 libunistring2:i386 libunity-control-center1 libunity-settings-daemon1 liburl-dispatcher1 libusb-1.0-0:i386 libuuid1:i386 libv4l-0:i386 libv4lconvert0:i386 libvisual-0.4-0:i386 libvorbis0a:i386 libvorbisenc2:i386 libwayland-client0:i386 libwayland-cursor0:i386 libwayland-egl1-mesa:i386 libwayland-egl1:i386 libwayland-server0:i386 libwind0-heimdal:i386 libwrap0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386 libxcb-dri2-0:i386 libxcb-dri3-0:i386 libxcb-glx0:i386 libxcb-present0:i386 libxcb-render0:i386 libxcb-shm0:i386 libxcb-sync1:i386 libxcb-xfixes0:i386 libxcb1:i386 libxcomposite1:i386 libxcursor1:i386 libxdamage1:i386 libxdmcp6:i386 libxext6:i386 libxfixes3:i386 libxi6:i386 libxinerama1:i386 libxkbcommon0:i386 libxpm4:i386 libxrandr2:i386 libxrender1:i386 libxshmfence1:i386 libxss1:i386 libxxf86vm1:i386 libzmq5 libzstd1:i386 lightdm lynis menu mssql-server nomachine ocl-icd-libopencl1:i386 openjdk-8-jdk openjdk-8-jdk-headless openjdk-8-jre openjdk-8-jre-headless p7zip python-pip-whl python3-croniter python3-pip python3-tornado python3-wheel python3-zmq salt-common salt-minion sntp tigervnc-common tigervnc-scraping-server ubuntu-touch-sounds unity-control-center unity-greeter unity-settings-daemon vlock wine-stable-amd64 zlib1g:i386
+2025-04-22 18:10:15,108 DEBUG updateSourcesList()
+2025-04-22 18:10:15,109 DEBUG rewriteSourcesList() with mirror_check
+2025-04-22 18:10:15,110 DEBUG ['ubuntu-minimal', 'ubuntu-standard']
+2025-04-22 18:10:15,110 DEBUG Checking pkg: ubuntu-minimal
+2025-04-22 18:10:15,110 DEBUG Checking pkg: ubuntu-standard
+2025-04-22 18:10:15,110 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic main'
+2025-04-22 18:10:15,111 DEBUG entry '# deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ focal main # disabled on upgrade to focal' was disabled (unknown mirror)
+2025-04-22 18:10:15,111 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic-updates main'
+2025-04-22 18:10:15,112 DEBUG entry '# deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic-updates main # disabled on upgrade to focal' was disabled (unknown mirror)
+2025-04-22 18:10:15,112 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic-security main'
+2025-04-22 18:10:15,112 DEBUG entry '# deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic-security main # disabled on upgrade to focal' was disabled (unknown mirror)
+2025-04-22 18:10:15,113 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic main'
+2025-04-22 18:10:15,113 DEBUG entry '# deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal main # disabled on upgrade to focal' was disabled (unknown mirror)
+2025-04-22 18:10:15,113 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-security main'
+2025-04-22 18:10:15,114 DEBUG entry '# deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-security main # disabled on upgrade to focal' was disabled (unknown mirror)
+2025-04-22 18:10:15,114 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-updates main'
+2025-04-22 18:10:15,115 DEBUG entry '# deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-updates main # disabled on upgrade to focal' was disabled (unknown mirror)
+2025-04-22 18:10:15,115 DEBUG examining: 'deb [arch=amd64,armhf,arm64] https://packages.microsoft.com/ubuntu/20.04/prod focal main'
+2025-04-22 18:10:15,115 DEBUG entry '# deb [arch=amd64,armhf,arm64] https://packages.microsoft.com/ubuntu/20.04/prod focal main # disabled on upgrade to focal' was disabled (unknown mirror)
+2025-04-22 18:10:15,115 ERROR No valid mirror found
+2025-04-22 18:10:15,116 DEBUG rewriteSourcesList()
+2025-04-22 18:10:15,116 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic main'
+2025-04-22 18:10:15,117 DEBUG verifySourcesListEntry: deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ focal main
+2025-04-22 18:10:15,117 DEBUG url_downloadable: http://10.13.0.88:8080/ubuntu//dists/focal/Release
+2025-04-22 18:10:15,117 DEBUG s='http' n='10.13.0.88:8080' p='/ubuntu//dists/focal/Release' q='' f=''
+2025-04-22 18:10:15,120 DEBUG entry 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ focal main' updated to new dist
+2025-04-22 18:10:15,120 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic-updates main'
+2025-04-22 18:10:15,120 DEBUG entry 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ focal-updates main' updated to new dist
+2025-04-22 18:10:15,120 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ bionic-security main'
+2025-04-22 18:10:15,121 DEBUG entry 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu/ focal-security main' updated to new dist
+2025-04-22 18:10:15,121 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic main'
+2025-04-22 18:10:15,122 DEBUG verifySourcesListEntry: deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal main
+2025-04-22 18:10:15,122 DEBUG url_downloadable: http://10.13.0.88:8080/ubuntu/dists/focal/Release
+2025-04-22 18:10:15,122 DEBUG s='http' n='10.13.0.88:8080' p='/ubuntu/dists/focal/Release' q='' f=''
+2025-04-22 18:10:15,123 DEBUG entry 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal main' updated to new dist
+2025-04-22 18:10:15,123 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-security main'
+2025-04-22 18:10:15,124 DEBUG entry 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-security main' updated to new dist
+2025-04-22 18:10:15,124 DEBUG examining: 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu bionic-updates main'
+2025-04-22 18:10:15,124 DEBUG entry 'deb [arch=amd64] http://10.13.0.88:8080/ubuntu focal-updates main' updated to new dist
+2025-04-22 18:10:15,124 DEBUG examining: 'deb [arch=amd64,armhf,arm64] https://packages.microsoft.com/ubuntu/20.04/prod focal main'
+2025-04-22 18:10:15,125 DEBUG entry 'deb [arch=amd64,armhf,arm64] https://packages.microsoft.com/ubuntu/20.04/prod focal main' is already set to new dist
+2025-04-22 18:10:15,139 DEBUG running doUpdate() (showErrors=True)
+2025-04-22 18:10:16,711 DEBUG openCache()
+2025-04-22 18:10:16,869 DEBUG Comparing 5.4.0-150 with
+2025-04-22 18:10:16,870 DEBUG Comparing 5.4.0-84 with 5.4.0-150
+2025-04-22 18:10:16,916 DEBUG /openCache(), new cache size 23565
+2025-04-22 18:10:16,916 DEBUG need_server_mode(): run in 'desktop' mode, (because of pkg 'ubuntu-desktop')
+2025-04-22 18:10:16,917 DEBUG quirks: running PreDistUpgradeCache
+2025-04-22 18:10:16,917 DEBUG running Quirks.PreDistUpgradeCache
+2025-04-22 18:10:16,917 INFO checking for python-dbg (auto_inst=False)
+2025-04-22 18:10:16,917 INFO checking for python-doc (auto_inst=False)
+2025-04-22 18:10:16,917 INFO checking for python-minimal (auto_inst=False)
+2025-04-22 18:10:16,917 INFO installing python-is-python2 because python-minimal was installed
+2025-04-22 18:10:16,917 DEBUG Installing 'python-is-python2' (python-minimal was installed on the system)
+2025-04-22 18:10:16,917 INFO removing python-minimal because python-is-python2 is being installed
+2025-04-22 18:10:16,917 DEBUG Removing 'python-minimal' (python-is-python2 is being installed on the system)
+2025-04-22 18:10:16,927 INFO failed to remove python-minimal
+2025-04-22 18:10:16,928 INFO checking for python-dev (auto_inst=False)
+2025-04-22 18:10:16,928 INFO checking for libpython-dev (auto_inst=False)
+2025-04-22 18:10:16,928 INFO checking for libpython-stdlib (auto_inst=False)
+2025-04-22 18:10:16,928 INFO removing libpython-stdlib because None is being installed
+2025-04-22 18:10:16,928 DEBUG Removing 'libpython-stdlib' (None is being installed on the system)
+2025-04-22 18:10:16,938 INFO failed to remove libpython-stdlib
+2025-04-22 18:10:16,938 INFO checking for libpython-dbg (auto_inst=False)
+2025-04-22 18:10:16,938 INFO checking for python-dbg (auto_inst=True)
+2025-04-22 18:10:16,938 INFO checking for python-doc (auto_inst=True)
+2025-04-22 18:10:16,938 INFO checking for python-minimal (auto_inst=True)
+2025-04-22 18:10:16,938 INFO installing python-is-python2 because python-minimal was installed
+2025-04-22 18:10:16,938 DEBUG Installing 'python-is-python2' (python-minimal was installed on the system)
+2025-04-22 18:10:16,938 INFO removing python-minimal because python-is-python2 is being installed
+2025-04-22 18:10:16,938 DEBUG Removing 'python-minimal' (python-is-python2 is being installed on the system)
+2025-04-22 18:10:16,938 INFO failed to remove python-minimal
+2025-04-22 18:10:16,938 INFO checking for python-dev (auto_inst=True)
+2025-04-22 18:10:16,938 INFO checking for libpython-dev (auto_inst=True)
+2025-04-22 18:10:16,938 INFO checking for libpython-stdlib (auto_inst=True)
+2025-04-22 18:10:16,938 INFO removing libpython-stdlib because None is being installed
+2025-04-22 18:10:16,938 DEBUG Removing 'libpython-stdlib' (None is being installed on the system)
+2025-04-22 18:10:16,938 INFO failed to remove libpython-stdlib
+2025-04-22 18:10:16,938 INFO checking for libpython-dbg (auto_inst=True)
+2025-04-22 18:10:16,938 INFO universe component not enabled
+2025-04-22 18:10:16,939 ERROR universe component not enabled You have the package python-minimal installed which is a python2 package. python2 has been deprecated in Ubuntu 20.04 LTS and is now available from the universe component of the Ubuntu archive. To ensure any existing third party code you have installed continues to work the release upgrade process would install python-is-python2 for you. However, the universe component of the archive is not enabled on this system. For the upgrade process to proceed you should either enable the universe component in /etc/apt/sources.list or remove python-minimal, libpython-stdlib (None)
+2025-04-22 18:10:16,939 DEBUG abort called
+2025-04-22 18:10:16,940 ERROR view.abort called
+2025-04-22 18:10:16,940 DEBUG openCache()
+2025-04-22 18:10:17,425 DEBUG Comparing 5.4.0-150 with
+2025-04-22 18:10:17,425 DEBUG Comparing 5.4.0-84 with 5.4.0-150
+2025-04-22 18:10:17,458 DEBUG /openCache(), new cache size 19209
